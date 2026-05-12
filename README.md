@@ -311,17 +311,4 @@ docker compose up --build
 - Dockerized Deployment Workflow
 - Premium SaaS UI/UX
 
----
 
-# Developer
-
-Medical AI Assistant Development Project
-
-GitHub Repository:
-Add your GitHub repository link here.
-
----
-
-# License
-
-Developed for educational, portfolio, and technical assessment purposes.
