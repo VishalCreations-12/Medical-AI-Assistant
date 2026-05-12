@@ -1,184 +1,329 @@
+````markdown
 # Medical AI Assistant
 
-Medical AI Assistant is a healthcare inventory and procurement operations platform. It pairs a Go REST API with a Next.js dashboard so clinical supply, pharmacy, and materials teams can monitor stock posture, orchestrate purchase orders, and review analytics from a single workspace.
+Medical AI Assistant is a modern healthcare inventory and procurement SaaS platform designed for hospitals, medical institutions, and healthcare operations teams. The platform focuses on inventory monitoring, procurement workflows, supplier management, analytics, and AI-powered operational insights through a scalable full-stack architecture.
 
-The codebase is structured for production rollout: PostgreSQL schemas and Redis-ready caching hooks ship alongside the default runtime, which keeps development friction low by running entirely on in-process storage.
+The project was developed to demonstrate scalable software engineering practices, modern frontend-backend integration, REST API architecture, responsive SaaS UI development, and modular system design.
 
-## Architecture
+---
 
-- **Frontend**: Next.js 15 (App Router), React 19, TypeScript, Tailwind CSS v4, Radix primitives, Recharts, Sonner toasts, `next-themes` for dark/light mode.
-- **Backend**: Go 1.22, Gin, JWT authentication, layered handlers/services/repositories, configurable CORS, structured REST endpoints under `/api/v1`.
-- **Domain layer**: Repository interfaces with an in-memory implementation for local execution; PostgreSQL-ready SQL artifacts live under `database/` for managed deployments.
-- **Caching**: Cache abstraction with an in-memory implementation and optional Redis client wiring (`REDIS_ADDR`) when you enable remote infrastructure.
-- **Delivery**: Dockerfiles for both tiers plus Compose orchestration with optional Postgres and Redis profiles.
+# Core Features
 
-```
-Browser ──► Next.js (3000) ──► Go API (8080) ──► Repository interfaces
-                                              ├── MemoryStore (default)
-                                              ├── PostgreSQL adapters (optional wiring)
-                                              └── Redis cache (optional wiring)
-```
+## Authentication & Access Control
+- User Registration
+- Secure Login System
+- JWT Authentication
+- Session Persistence
+- Protected Routes
 
-## Features
+## Inventory Management
+- Add Medical Products
+- Edit Inventory Items
+- Delete Inventory Records
+- Product Quantity Tracking
+- Expiry Date Monitoring
+- Low Stock Alerts
+- Product Categorization
 
-- Secure signup/login/logout with JWT bearer tokens, persisted sessions, and role-aware UI (`admin`, `manager`, `viewer`).
-- Inventory catalog with SKU governance, category taxonomy, stock thresholds, expiry tracking, low-stock badges, and filtered search.
-- Procurement workspace with supplier registry, multi-status purchase orders, and guided transitions across the fulfillment lifecycle.
-- Dashboard analytics covering inventory valuation, procurement cadence, category concentration, and projected revenue coverage metrics.
-- Smart insights engine highlighting reorder recommendations, stock-out horizon estimates, and historical movement trends derived from recorded inventory adjustments.
-- Responsive SaaS shell with sidebar navigation, premium cards, loading states, toast notifications, and accessible dialogs.
+## Procurement Workflow
+- Procurement Request Management
+- Order Tracking
+- Supplier Handling
+- Purchase Workflow Monitoring
+- Status-Based Procurement Updates
 
-## Repository layout
+## Supplier Management
+- Supplier Information Management
+- Supplier Listing Dashboard
+- Procurement Association
+- Vendor Tracking
 
-```
-├── backend/                  # Go API (cmd, handlers, services, repositories, middleware)
-├── frontend/                 # Next.js 15 client application
+## Smart AI Insights
+- Low Stock Predictions
+- Smart Reorder Suggestions
+- Inventory Trend Analysis
+- Usage-Based Insights
+- AI-Driven Operational Recommendations
+
+## Dashboard Analytics
+- Inventory Statistics
+- Procurement Analytics
+- Revenue & Usage Charts
+- Stock Overview
+- Product Performance Insights
+
+## Search & Filtering
+- Product Search
+- Category Filtering
+- Expiry Filtering
+- Procurement Status Filtering
+
+## UI / UX
+- Modern SaaS Dashboard
+- Responsive Design
+- Sidebar Navigation
+- Dark / Light Theme
+- Interactive Components
+- Toast Notifications
+- Loading States
+- Empty States
+- Mobile Responsive Layout
+
+---
+
+# Technology Stack
+
+| Technology | Purpose |
+|---|---|
+| Next.js 15 | Frontend Framework |
+| ReactJS | UI Development |
+| TypeScript | Type Safety |
+| Tailwind CSS | Styling |
+| Shadcn UI | UI Components |
+| GoLang | Backend Services |
+| Gin Framework | REST APIs |
+| SQL Architecture | Data Layer |
+| Redis Architecture | Caching Layer |
+| Docker | Containerization |
+| JWT | Authentication |
+| Git & GitHub | Version Control |
+
+---
+
+# System Architecture
+
+```bash
+Medical-AI-Assistant/
+│
+├── frontend/
+│   ├── app/
+│   ├── components/
+│   ├── services/
+│   ├── hooks/
+│   ├── styles/
+│   └── lib/
+│
+├── backend/
+│   ├── cmd/
+│   ├── handlers/
+│   ├── middleware/
+│   ├── repositories/
+│   ├── services/
+│   ├── routes/
+│   ├── models/
+│   └── utils/
+│
 ├── database/
-│   ├── schema/               # Authoritative PostgreSQL DDL
-│   └── migrations/           # Incremental migration scripts
+│   ├── schema/
+│   └── migrations/
+│
 ├── infrastructure/
-│   ├── docker/               # Compose overlays (optional extensions)
-│   └── nginx/                # Reverse-proxy reference configuration
-├── docker-compose.yml        # Local multi-container orchestration
-└── README.md
+│   ├── docker/
+│   └── nginx/
+│
+├── screenshots/
+├── docker-compose.yml
+├── README.md
+└── package.json
 ```
+
+---
+
+# Installation & Setup
 
 ## Prerequisites
 
-- Node.js 20+ and npm (for the dashboard).
-- Go 1.22+ (for native API execution).
-- Docker Desktop or Docker Engine (optional, for container workflows).
+Install:
+- Node.js
+- GoLang
+- Docker Desktop
 
-## Environment variables
+---
 
-Copy `.env.example` to `.env` at the repository root (or export variables in your shell).
+# Clone Repository
 
-| Variable | Purpose |
-| --- | --- |
-| `JWT_SECRET` | Signing key for JWT issuance (use a long random string in production). |
-| `PORT` | HTTP listen port for the Go API (`8080` default). |
-| `ENV` | `development` or `production` (controls Gin mode). |
-| `CORS_ORIGINS` | Comma-separated browser origins allowed to call the API. |
-| `NEXT_PUBLIC_API_URL` | Absolute origin for browser-side fetch calls (`http://localhost:8080` locally). |
-| `REDIS_ADDR` | Optional `host:port` to activate Redis-backed caching. |
-| `DATABASE_URL` | Optional Postgres DSN when wiring SQL repositories. |
+```bash
+git clone YOUR_GITHUB_REPOSITORY_LINK
+```
 
-## Local development
+Move into the project directory:
 
-### API
+```bash
+cd Medical-AI-Assistant
+```
+
+---
+
+# Frontend Setup
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Frontend runs at:
+
+```bash
+http://localhost:3000
+```
+
+---
+
+# Backend Setup
 
 ```bash
 cd backend
 go mod tidy
-go run ./cmd/server
+go run cmd/main.go
 ```
 
-The service listens on `http://localhost:8080` and exposes `GET /health`.
-
-### Web
+Backend runs at:
 
 ```bash
-cd frontend
-npm install
-npm run dev
+http://localhost:8080
 ```
 
-Visit `http://localhost:3000`.
+---
 
-The dashboard calls **`/api/v1` on the same Next.js origin**. By default the API is implemented **in-process with an in-memory store** (see `frontend/app/api/v1` and `frontend/lib/server`), so **no separate backend process is required** for local use. Optional: set `NEXT_PUBLIC_API_URL` to point the browser at an external Go API when you run `backend/cmd/server` instead.
+# Docker Setup
 
-Run UI only:
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-Run Next.js plus the external Go API together (optional):
-
-```bash
-cd frontend
-npm install
-npm run dev:stack
-```
-
-### Quality checks
-
-```bash
-cd backend && go test ./...
-cd frontend && npm run lint && npm run test && npm run build
-```
-
-## Docker workflow
-
-Build and launch both services:
+Run complete application:
 
 ```bash
 docker compose up --build
 ```
 
-- Dashboard: `http://localhost:3000`
-- API: `http://localhost:8080`
+---
 
-Optional infrastructure (PostgreSQL + Redis) without impacting the default API process:
+# Application Screenshots
 
-```bash
-docker compose --profile datastore up --build
-```
+## Landing Page
 
-The API continues to run without those containers until you wire repository constructors to external databases.
+![Landing](./screenshots/landing.png)
 
-### Reverse proxy
+---
 
-`infrastructure/nginx/default.conf` demonstrates routing browser traffic through Nginx while preserving WebSocket upgrades for Next.js dev tooling if you terminate TLS at the edge.
+## Main Dashboard
 
-## API overview
+![Dashboard](./screenshots/dashboard.png)
 
-Base URL: `/api/v1`
+---
 
-| Area | Methods | Notes |
-| --- | --- | --- |
-| `/auth/register` | `POST` | Creates accounts (`viewer`/`manager` roles). |
-| `/auth/login` | `POST` | Returns JWT + user profile. |
-| `/auth/me` | `GET` | Requires `Authorization: Bearer`. |
-| `/auth/logout` | `POST` | Client-side token purge hook. |
-| `/dashboard/summary` | `GET` | Aggregate KPI payload for charts. |
-| `/insights` | `GET` | Smart recommendations & trends. |
-| `/products` | `GET`, `POST`, `PUT`, `DELETE` | Inventory CRUD + filters (`q`, `categoryId`, `lowStock`, `expiring`). |
-| `/categories` | `GET`, `POST`, `PUT`, `DELETE` | Reference data maintenance. |
-| `/suppliers` | `GET`, `POST`, `PUT`, `DELETE` | Vendor registry. |
-| `/purchase-orders` | `GET`, `POST`, `PUT`, `DELETE` | Procurement lifecycle management. |
+## Dashboard Analytics
 
-Mutating inventory and procurement routes require `admin` or `manager` roles.
+![Dashboard Analytics](./screenshots/dashboard2.png)
 
-### Demo credentials
+---
 
-A seeded administrator is created on API startup:
+## Inventory Management
 
-- Email: `admin@swasthya-ai.in`
-- Password: `SwasthyaIndia2026!`
+![Inventory](./screenshots/inventory.png)
 
-Rotate these credentials before any shared deployment.
+---
 
-## Deployment guide
+## Inventory Tracking
 
-1. Build container images using the provided Dockerfiles or integrate with your CI pipeline.
-2. Supply strong `JWT_SECRET`, configure HTTPS termination, and restrict `CORS_ORIGINS` to trusted domains.
-3. Point `DATABASE_URL` at a managed PostgreSQL cluster and hydrate schema via `database/migrations`.
-4. Optionally enable Redis for shared caching across API replicas by setting `REDIS_ADDR`.
-5. Front the stack with your preferred ingress controller; reuse `infrastructure/nginx/default.conf` as a baseline.
+![Inventory Tracking](./screenshots/inventory2.png)
 
-## Screenshots
+---
 
-Capture production-grade visuals once your workspace is branded:
+## Procurement Workflow
 
-1. **Executive overview** — `/dashboard` KPI grid with procurement trend chart.
-2. **Inventory command center** — `/inventory` filtered catalog table with dialog-driven edits.
-3. **Procurement pipeline** — `/procurement` purchase order board highlighting lifecycle controls.
+![Procurement](./screenshots/procurement.png)
 
-Store PNG exports under `docs/screenshots/` for handbook or investor collateral.
+---
 
-## License
+## Supplier Management
 
-This reference implementation is provided as-is for evaluation and portfolio use. Ensure compliance with HIPAA, GDPR, or other regulatory frameworks before handling real patient or procurement data.
+![Suppliers](./screenshots/suppliers.png)
+
+---
+
+## Analytics Overview
+
+![Analytics](./screenshots/analytics.png)
+
+---
+
+## Smart AI Insights
+
+![Smart Insights](./screenshots/smartinsights.png)
+
+---
+
+## Light Theme
+
+![Light Theme](./screenshots/lightmode.png)
+
+---
+
+# API Modules
+
+## Authentication APIs
+- Login
+- Register
+- JWT Validation
+
+## Inventory APIs
+- Add Product
+- Update Product
+- Delete Product
+- Fetch Inventory
+
+## Procurement APIs
+- Create Procurement Request
+- Update Procurement Status
+- Procurement Analytics
+
+## Supplier APIs
+- Add Supplier
+- Update Supplier
+- Fetch Supplier Data
+
+## Analytics APIs
+- Dashboard Metrics
+- Smart Insights
+- Inventory Reports
+
+---
+
+# Future Enhancements
+
+- Multi-Tenant Architecture
+- Real-Time Notifications
+- Cloud Deployment
+- AI Forecasting Expansion
+- Advanced Procurement Automation
+- Role-Based Team Management
+- Exportable Reports
+- Email Notifications
+
+---
+
+# Project Highlights
+
+- Modern Healthcare SaaS Architecture
+- Full-Stack Frontend & Backend Integration
+- REST API Driven Design
+- Responsive Dashboard System
+- Smart Inventory Insights
+- Scalable Modular Code Structure
+- Dockerized Deployment Workflow
+- Premium SaaS UI/UX
+
+---
+
+# Developer
+
+Medical AI Assistant Development Project
+
+GitHub Repository:
+Add your GitHub repository link here.
+
+---
+
+# License
+
+Developed for educational, portfolio, and technical assessment purposes.
+````
