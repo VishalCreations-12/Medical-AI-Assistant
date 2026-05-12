@@ -1,4 +1,3 @@
-````markdown
 # Medical AI Assistant
 
 Medical AI Assistant is a modern healthcare inventory and procurement SaaS platform designed for hospitals, medical institutions, and healthcare operations teams. The platform focuses on inventory monitoring, procurement workflows, supplier management, analytics, and AI-powered operational insights through a scalable full-stack architecture.
@@ -326,4 +325,3 @@ Add your GitHub repository link here.
 # License
 
 Developed for educational, portfolio, and technical assessment purposes.
-````
